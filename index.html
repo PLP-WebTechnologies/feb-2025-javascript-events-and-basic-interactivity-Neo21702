@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>JS Event Playground</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      padding: 20px;
+    }
+
+    button {
+      margin: 10px;
+      padding: 10px 20px;
+      border-radius: 8px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+
+    button:hover {
+      background-color: #ffe0b3;
+    }
+
+    .tab-content {
+      margin-top: 10px;
+      padding: 10px;
+      background: #f0f0f0;
+      border-radius: 5px;
+    }
+
+    img {
+      width: 150px;
+      height: auto;
+      border-radius: 10px;
+      display: block;
+      margin-bottom: 10px;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Welcome to My JavaScript Playground 🎉</h1>
+
+  <!-- Button with multiple events -->
+  <button id="magicBtn">Click me!</button>
+
+  <!-- Keypress display -->
+  <p>Last key pressed: <span id="keyDisplay">None</span></p>
+
+  <!-- Image Gallery -->
+  <div class="gallery">
+    <img src="images/img1.jpg" id="galleryImg" alt="Gallery Image" />
+    <button onclick="changeImage()">Next Image</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs">
+    <button onclick="showTab('tab1')">Tab 1</button>
+    <button onclick="showTab('tab2')">Tab 2</button>
+    <div id="tab1" class="tab-content">This is Tab 1 content</div>
+    <div id="tab2" class="tab-content" style="display:none;">This is Tab 2 content</div>
+  </div>
+
+  <!-- Form Validation -->
+  <form id="myForm">
+    <input type="text" id="name" placeholder="Name" required />
+    <input type="email" id="email" placeholder="Email" required />
+    <input type="password" id="password" placeholder="Password" required />
+    <p id="feedback"></p>
+    <button type="submit">Submit</button>
+  </form>
+
+  <script>
+    // Click & Double-click
+    const magicBtn = document.getElementById("magicBtn");
+    let clicked = false;
+
+    magicBtn.addEventListener("click", () => {
+      clicked = !clicked;
+      magicBtn.textContent = clicked ? "You clicked me!" : "Click me!";
+      magicBtn.style.backgroundColor = clicked ? "#8bc34a" : "#2196f3";
+    });
+
+    magicBtn.addEventListener("dblclick", () => {
+      alert("Secret double-click detected! 🤫");
+    });
+
+    // Hover
+    magicBtn.addEventListener("mouseover", () => {
+      magicBtn.style.transform = "scale(1.1)";
+    });
+    magicBtn.addEventListener("mouseout", () => {
+      magicBtn.style.transform = "scale(1)";
+    });
+
+    // Keypress Detection
+    document.addEventListener("keydown", (e) => {
+      document.getElementById("keyDisplay").textContent = e.key;
+    });
+
+    // Image Gallery
+    let images = [
+      "images/img1.jpg",
+      "images/img2.jpg",
+      "images/img3.jpg"
+    ];
+    let currentImage = 0;
+
+    function changeImage() {
+      currentImage = (currentImage + 1) % images.length;
+      document.getElementById("galleryImg").src = images[currentImage];
+    }
+
+    // Tabs
+    function showTab(tabId) {
+      document.querySelectorAll(".tab-content").forEach(tab => {
+        tab.style.display = "none";
+      });
+      document.getElementById(tabId).style.display = "block";
+    }
+
+    // Form Validation
+    const form = document.getElementById("myForm");
+    const password = document.getElementById("password");
+    const feedback = document.getElementById("feedback");
+
+    password.addEventListener("input", () => {
+      if (password.value.length < 8) {
+        feedback.textContent = "Password must be at least 8 characters.";
+        feedback.style.color = "red";
+      } else {
+        feedback.textContent = "Looking good!";
+        feedback.style.color = "green";
+      }
+    });
+
+    form.addEventListener("submit", (e) => {
+      if (password.value.length < 8) {
+        e.preventDefault();
+        alert("Please make sure your password is at least 8 characters.");
+      }
+    });
+  </script>
+</body>
+</html>
